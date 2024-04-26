@@ -1,0 +1,30 @@
+\ProvidesPackage{style}
+
+% Font and text layout
+\RequirePackage{geometry}
+\geometry{a4paper, margin=1in}
+\RequirePackage{setspace}
+\setstretch{1.15}
+
+% Enhanced graphics support
+\RequirePackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+% Table enhancements
+\RequirePackage{booktabs}
+
+% Define custom colors
+\RequirePackage{xcolor}
+\definecolor{myblue}{rgb}{0.22, 0.45, 0.70}
+
+% Custom commands
+\newcommand{\important}[1]{\textbf{\color{myblue}#1}}
+
+% Math environments from amsthm
+\RequirePackage{amsthm}
+\RequirePackage{amsmath, amssymb}  
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+
+\endinput
