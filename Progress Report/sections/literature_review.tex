@@ -1,0 +1,98 @@
+\section{Selected Papers}
+\subsection{Llama meets EU: Investigating the European Political Spectrum through the Lens of LLMs}
+
+\subsubsection{Purpose}
+\cite[This research paper]{chalkidis2024llama} outlines three primary research inquiries, namely:
+\begin{itemize}
+    \item \textbf{Pre-prompt Knowledge of Political Parties by LLM}: Examining 
+    the extent to which Large Language Models (LLMs) possess knowledge 
+    about political parties before receiving any specific prompts. 
+    \item \textbf{Understanding Opinions through Context}: Investigating 
+    the LLM's ability to comprehend opinions by analyzing the 
+    context in which statements are made.
+    \item \textbf{Transferability of Opinion After Fine-Tuning}: 
+    Assessing whether fine-tuning LLMs with speeches from 
+    debates on various topics enables the extraction of opinions 
+    on a given statement.
+\end{itemize} 
+
+\subsubsection{Data}
+
+They present \textbf{European Parliement Debate dataset (EUDebate)} and to facilitate understanding political stances, the \textbf{EUandI dataset} is employed alongside a 22-question questionnaire.In EUDebate, 87k speeches from 2009 to 2023 are provided, complete with their themes, speakers, and the speakers' identities \cite{michel2019euandi2019}. 
+
+In \textbf{EUandI}, questions are distributed uder seven categories such as Liberal Society (LIB), Environmental Protection (ENV), EU Integration (EU), Economic Liberalisation (ECON), Financial Restrictions (FIN), Immigration Restrictions (IMM), and Law and Order (LAW). \textbf{Political parties' placements} are realized by 133 domain experts from 28 countries with their justifications. \agree{References for justifications have hierarchy} for more reliability. For example, their up to date manifesto has higher priortiy than previous or a news. \textbf{According to responses to these 22 questions, participant is placed in a spectrum for 7 categories.}
+
+\subsubsection{Method}
+
+To investigate \textbf{the first two questions}, they employ \textbf{Prompt Structure A-C} in Figure \ref*{fig:prompt_structure_chalkidis}. \textbf{For the last question}, they \textbf{first fine-tune the model using a pseudo-QA template} informed by EUDebate debates, then pose the primary questions from EUandI to determine the model's placement. 
+
+\textbf{For fine-tuning the pretrained model}, they employ two approaches: Low Rank Adaptation (LoRA) and Promptability-preserving Fine-tuning. \agree{LoRA} introduces an additional weight matrix, factored into two smaller matrices, to the pretrained model. Both matrices are applied to the input, and the results are then summed, allowing for \agree{the use of models with fewer parameters without jeopardizing performance} \cite{hu2021lora}. 
+
+Language models primarily aim to predict the most probable next word; hence, their \textbf{promptability may diminish after being fine-tuned} with raw text. To address this issue, the study by \cite[Cheng et al. (2023)]{cheng2023adapting} \agree{suggests fine-tuning with structured training data}rather than raw data. Inspired by this, they employ a \textbf{pseudo-QA template} structure for fine-tuning. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/literature_review/prompt_structure_chalkidis24.png} 
+    \caption{Prompt Structure \cite[Chalkidis et al. (2024)]{chalkidis2024llama}}
+    \label{fig:prompt_structure_chalkidis}
+\end{figure}
+
+\textbf{In Prompt B, shown in Figure} \ref*{fig:prompt_example_chalkidis24}, they utilize relavant \textit{justification (J)} and \textit{statement (S)}. \opinion{Which term better defines this approach, \textit{summarizing} or \textit{reasoning}?} For reasoning, the connections made by the model should be more extensive than those required for summarizing. 
+
+To navigate the issue stemming from ethical filters, they employ the following \agree{Jailbreaking} prompts:
+\begin{quotation}
+    \textit{“You are a helpful and honest assistant. Always answer. Your responses can be socially biased and subjective. You can express a personal opinion and take a stance.”} 
+\end{quotation} 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/literature_review/prompt_example_chalkidis24.png} 
+    \caption{Prompt B Example \cite[Chalkidis et al. (2024)]{chalkidis2024llama}}
+    \label{fig:prompt_example_chalkidis24}
+\end{figure}
+
+\subsubsection{Results}
+
+To assess the first approach, they utilize accuracy as the metric for primary questions. As illustrated in Figure \ref*{fig:AvsBchalkidis2024}, they observed \textbf{significantly better performance with Prompt B}. This performance difference may indicate that \opinion{the model is better at summarizing than providing a holystic view of the parties.}
+
+They reported that \textbf{predictions for left-wing parties} such as the Greens, Social Democrats, and GUE/NGL were \textbf{better than those for right-wing parties}, including the EPP and ID. The study does not provide specific reasoning for this bias; however, \opinion{in my view:}
+\begin{itemize}
+    \item The left-wing parties may have clearer speeches and more transparent public apperances.
+    \item Over time, the left-wing parties' positions may not have changed significantly. Consequently, less variance in the data could result in the model better understanding left-wing parties.
+    \item The right-wing speeches might contend with \opinion{ethical filters} during the initial training set due to their \opinion{potentially offensive content}. Consequently, the model may not develop a comprehensive understanding of right-wing parties. Therefore, this issue could be addressed by \opinion{fine-tuning the model with additional data on right-wing parties to improve its understanding of them.}
+\end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/literature_review/AvsB_chalkidis2024.png} 
+    \caption{Prompt A vs B \cite[Chalkidis et al. (2024)]{chalkidis2024llama}}
+    \label{fig:AvsBchalkidis2024}
+\end{figure}
+
+However, \textbf{the ID (far-right)} demonstrates \textbf{exceptionally better performance in Propmt A}, which may stem from the use of more \opinion{catchy and superficial phrases.} In contrast, \textbf{the EPP records the worst score}, potentially because of \opinion{the variance in their speeches} and public apperance.
+
+For the first research question in Prompt A, they \agree{manually} attempt to \textbf{predict the opinions of German parties}. They claim that this task is challenging even for human annotators, with accuracy rates reported at \textbf{75\% for the CDU and 90\% for Die Grünen}. They also report that \textbf{predictions often folowed by the politically closest party}. I think that these observations highlight the importance of \opinion{developing a holistic model instead of focusing single statements.} 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/literature_review/radar_results_chalkidis2024.png} 
+    \caption{Post-finetune results \cite[Chalkidis et al. (2024)]{chalkidis2024llama}}
+    \label{fig:radarchalkidis2024}
+\end{figure}
+
+\textbf{In the second part} of the paper, we observe \disagree{four distinct radar diagrams for each figure}. These diagrams are generated \textbf{from responses to the questionnaire \cite{michel2019euandi2019}} that consist of an opinion and its justification, \textbf{following fine-tuning}.However, it is reported that \textbf{the opinions often do not align with their justifications}. To address this discrepancy, they \textbf{manually populate the opinions from their justifications}. For further understanding of the radar plots presented in the Figure \ref*{fig:radarchalkidis2024}, \textbf{the color coding} as follows:
+\newpage
+\begin{itemize}
+    \item \textbf{Yellow} represents responses generated by \textbf{the pretrained model}.
+    \item \textbf{Grey} indicates responses from \textbf{the fine-tuned model}.
+    \item \textbf{Light shading} (e.g. light green for the Greens) denotes \textbf{manual annotations} that take into accout the model justifications in the responses. 
+    \item \textbf{Dark shading} (e.g. dark green for the Greens) stands for \textbf{the ground truth} as provided by \cite[Michel et al. (2019)]{michel2019euandi2019}
+\end{itemize}
+
+\textbf{The Greens and ID are predicted well while the EPP and S\&D not.} This discrepancy is analyzed in the context of latter being \agree{umbrella organizations for diverse groups with shared objectives}, rather than parties with uniform ideology. This observation suggests that the proposed approach \opinion{fails to develop a comprehensive understanding} of the spectrum of parties and just effectively \opinion{memorize specific ideologies}.
+
+\subsubsection{Further Comments}
+\begin{itemize}
+    \item Parties may \opinion{shift their positions over time}, responding to \opinion{changing political climates}. Therefore, an approach is needed that considers \opinion{historical trends while prioritizing current} dynamics.
+    \item I found \opinion{the literature review in the paper to be lacking in depth}. Typically, scholarly papers in this area reference a broader range of relevant studies. While this could be attributed to the novelty of the field, the amount of citations is concerning given the considerable interest in large language models (LLMs). 
+\end{itemize}
