@@ -1,7 +1,6 @@
-\section{Selected Papers}
-\subsection{Llama meets EU: Investigating the European Political Spectrum through the Lens of LLMs}
+\section{Llama meets EU: Investigating the European Political Spectrum through the Lens of LLMs}
 
-\subsubsection{Purpose}
+\subsection{Purpose}
 \cite[This research paper]{chalkidis2024llama} outlines three primary research inquiries, namely:
 \begin{itemize}
     \item \textbf{Pre-prompt Knowledge of Political Parties by LLM}: Examining 
@@ -16,13 +15,13 @@
     on a given statement.
 \end{itemize} 
 
-\subsubsection{Data}
+\subsection{Data}
 
 They present \textbf{European Parliement Debate dataset (EUDebate)} and to facilitate understanding political stances, the \textbf{EUandI dataset} is employed alongside a 22-question questionnaire.In EUDebate, 87k speeches from 2009 to 2023 are provided, complete with their themes, speakers, and the speakers' identities \cite{michel2019euandi2019}. 
 
 In \textbf{EUandI}, questions are distributed uder seven categories such as Liberal Society (LIB), Environmental Protection (ENV), EU Integration (EU), Economic Liberalisation (ECON), Financial Restrictions (FIN), Immigration Restrictions (IMM), and Law and Order (LAW). \textbf{Political parties' placements} are realized by 133 domain experts from 28 countries with their justifications. \agree{References for justifications have hierarchy} for more reliability. For example, their up to date manifesto has higher priortiy than previous or a news. \textbf{According to responses to these 22 questions, participant is placed in a spectrum for 7 categories.}
 
-\subsubsection{Method}
+\subsection{Method}
 
 To investigate \textbf{the first two questions}, they employ \textbf{Prompt Structure A-C} in Figure \ref*{fig:prompt_structure_chalkidis}. \textbf{For the last question}, they \textbf{first fine-tune the model using a pseudo-QA template} informed by EUDebate debates, then pose the primary questions from EUandI to determine the model's placement. 
 
@@ -51,7 +50,7 @@ To navigate the issue stemming from ethical filters, they employ the following \
     \label{fig:prompt_example_chalkidis24}
 \end{figure}
 
-\subsubsection{Results}
+\subsection{Results}
 
 To assess the first approach, they utilize accuracy as the metric for primary questions. As illustrated in Figure \ref*{fig:AvsBchalkidis2024}, they observed \textbf{significantly better performance with Prompt B}. This performance difference may indicate that \opinion{the model is better at summarizing than providing a holystic view of the parties.}
 
@@ -91,8 +90,11 @@ For the first research question in Prompt A, they \agree{manually} attempt to \t
 
 \textbf{The Greens and ID are predicted well while the EPP and S\&D not.} This discrepancy is analyzed in the context of latter being \agree{umbrella organizations for diverse groups with shared objectives}, rather than parties with uniform ideology. This observation suggests that the proposed approach \opinion{fails to develop a comprehensive understanding} of the spectrum of parties and just effectively \opinion{memorize specific ideologies}.
 
-\subsubsection{Further Comments}
+\subsection{Further Comments and Thougts}
 \begin{itemize}
-    \item Parties may \opinion{shift their positions over time}, responding to \opinion{changing political climates}. Therefore, an approach is needed that considers \opinion{historical trends while prioritizing current} dynamics.
-    \item I found \opinion{the literature review in the paper to be lacking in depth}. Typically, scholarly papers in this area reference a broader range of relevant studies. While this could be attributed to the novelty of the field, the amount of citations is concerning given the considerable interest in large language models (LLMs). 
+    \item Parties may \opinion{shift their positions over time}, responding to \opinion{changing political climates}. Therefore, an approach that considers \opinion{historical trends while prioritizing current} dynamics is needed. \opinion{Constructing a hierarchy} among training samples \opinion{based on their dates} could facilitate this perspective.  
+    \item To conduct political analysis and form extensive connections, utilizing \opinion{interviews with experts}, especially \opinion{case analyses}, could provide a rich \opinion{dataset for fine-tuning}. 
+    \item I found \opinion{the literature review in the paper to be lacking in depth}. Typically, scholarly papers in this area reference a broader range of relevant studies. While the limited number of citations might be due to the novelty of the field, it is still concerning given the considerable interest in large language models (LLMs). 
 \end{itemize}
+
+\newpage
