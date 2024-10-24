@@ -1,0 +1,69 @@
+\begin{algorithm}
+\caption{Predicting Responses to Unasked Survey Questions Using Embedding Projections}
+\begin{algorithmic}[1]
+\State \textbf{Input:} ESS dataset questions, Large Language Model (LLM)
+\State \textbf{Output:} Belief embeddings, Predicted answers for omitted questions
+
+\State
+\Procedure{QuestionSelectionAndNormalization}{}
+    \State Select questions that can be answered on a bipolar/unipolar scale
+    \State Exclude questions that cannot be scaled (e.g., "Which party did you vote for?")
+    \State Group questions into three categories:
+    \begin{itemize}
+        \item \textbf{Bipolar scale questions}: Answers range from "Strongly Disagree" to "Strongly Agree"
+        \item \textbf{Unipolar scale questions}: Examples include trust levels in politicians
+        \item \textbf{Yes/No questions}: Questions with binary answers
+    \end{itemize}
+    \State Normalize responses:
+    \begin{itemize}
+        \item Bipolar scale $\rightarrow$ [-1, 1]
+        \item Unipolar scale $\rightarrow$ [0, 1]
+        \item Yes/No questions: Normalize similar to bipolar scale
+    \end{itemize}
+\EndProcedure
+
+\State
+
+\Procedure{StatementGeneration}{}
+    \For{each question and its response}
+        \State \textbf{Use LLM} to transform question-response pairs into statements
+        \State \Comment{For example: \textit{"How able do you think you are to take an active role}}
+        \State \Comment{\textit{in a group involved with political issues?"}}
+        
+        \If{response is \textbf{"missing"} (e.g., "Refusal", "Don't know")}
+            \State Generate a statement indicating that the participant did not answer
+            \State \Comment{For example: \textit{"I prefer not to answer about my ability to take an}}
+            \State \Comment{\textit{active role in a group involved with political issues."}}
+        \ElsIf{response is an \textbf{extreme value} (e.g., "Strongly Agree", "Completely able")}
+            \State Generate a positive (pivot) statement
+            \State \Comment{For example: \textit{"I believe I am completely able to take an active role}}
+            \State \Comment{\textit{in a group involved with political issues."}}
+        \EndIf
+    \EndFor
+\EndProcedure
+
+\State
+
+\Procedure{BeliefEmbeddingDerivation}{}
+    \For{each participant}
+        \State Use LLM to generate semantic embeddings for the statements
+        \State Apply normalized coefficients (answers from the first phase) to the embeddings
+        \State Aggregate the weighted embeddings to create an individual belief embedding
+    \EndFor
+\EndProcedure
+
+\State
+
+\Procedure{PredictUnanskedQuestions}{}
+    \State Exclude a subset of answered questions from embedding calculation
+    \State Use LLM to generate pivot statements of the omitted questions
+    \State Use LLM to generate embeddings of the pivot statements
+    \State Calculate the projection of each participant's belief embedding onto the target question's vector
+    \State Estimate responses based on the distribution of projections
+\EndProcedure
+
+\State
+
+\end{algorithmic}
+\end{algorithm}
+

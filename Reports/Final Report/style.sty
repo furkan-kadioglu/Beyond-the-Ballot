@@ -1,0 +1,43 @@
+\ProvidesPackage{style}
+
+\usepackage{tikz}
+
+% Font and text layout
+\RequirePackage{geometry}
+\geometry{a4paper, margin=1in}
+\RequirePackage{setspace}
+\setstretch{1.15}
+
+% Enhanced graphics support
+\RequirePackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+% Table enhancements
+\RequirePackage{booktabs}
+
+% Define custom colors
+\RequirePackage{xcolor}
+\definecolor{myblue}{rgb}{0.22, 0.45, 0.70}
+\definecolor{softgreen}{rgb}{0.3, 0.6, 0}  
+\definecolor{softred}{rgb}{0.8, 0.3, 0.3} 
+\definecolor{softorange}{rgb}{1, 0.5, 0}
+
+% Custom commands
+\newcommand{\agree}[1]{\textbf{\color{softgreen}#1}}
+\newcommand{\disagree}[1]{\textbf{\color{softred}#1}}
+\newcommand{\opinion}[1]{\textbf{\color{softorange}#1}}
+
+% Math environments from amsthm
+\RequirePackage{amsthm}
+\RequirePackage{amsmath, amssymb}  
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{lipsum}
+
+
+
+\endinput
