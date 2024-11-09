@@ -46,7 +46,7 @@
 
 \Procedure{BeliefEmbeddingDerivation}{}
     \For{each participant}
-        \State Use LLM to generate semantic embeddings for the statements
+        \State Use the Sentence Transformer to generate semantic embeddings for the statements
         \State Apply normalized coefficients (answers from the first phase) to the embeddings
         \State Aggregate the weighted embeddings to create an individual belief embedding
     \EndFor
@@ -56,8 +56,8 @@
 
 \Procedure{PredictUnanskedQuestions}{}
     \State Exclude a subset of answered questions from embedding calculation
-    \State Use LLM to generate pivot statements of the omitted questions
-    \State Use LLM to generate embeddings of the pivot statements
+    \State Use the LLM to generate pivot statements of the omitted questions
+    \State Use the Sentence Transformer to generate embeddings of the pivot statements
     \State Calculate the projection of each participant's belief embedding onto the target question's vector
     \State Estimate responses based on the distribution of projections
 \EndProcedure
